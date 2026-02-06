@@ -7,6 +7,7 @@ import threading
 import time
 import winreg
 import webbrowser
+import ctypes
 
 from pathlib import Path
 from typing import List, Optional
@@ -114,7 +115,9 @@ class ServerManager:
             logging.error("uxplay.exe not found at %s", self.exe_path)
             return
 
-        cmd = [str(self.exe_path)] + self.arg_mgr.read_args()
+        hardcoded_args = ["-s", "3440x1440@60", "-vs", "d3d11videosink", "-fixed"]
+
+        cmd = [str(self.exe_path)] + hardcoded_args + self.arg_mgr.read_args()
         logging.info("Starting UxPlay: %s", cmd)
         try:
             self.process = subprocess.Popen(
@@ -314,3 +317,4 @@ class Application:
 
 if __name__ == "__main__":
     Application().run()
+
